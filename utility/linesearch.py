@@ -25,13 +25,13 @@ def genericNonmonotone(lmData, updateCalculator, directionCalculator, lineSearch
     """Generic nonmonotone line-search algorithm."""
     iter = np.array([0, 0])
     fx, gx = f(x), Df(x)
-    fx_list = np.append(np.zeros(parameters.nonmon-1), fx)
+    fxList = np.append(np.zeros(parameters.nonmon-1), fx)
 
     while not stoppingTest(iter, gx):
         d = directionCalculator(lmData, gx)
-        fx_ref = fx if iter[0]+1 < parameters.nonmon else max(fx_list)
-        x, ok, fx, gx, it, sn, yn = lineSearch(x, f, Df, d, fx_ref, gx)
-        fx_list = np.append(fx_list[1:], fx)
+        fxRef = fx if iter[0]+1 < parameters.nonmon else max(fxList)
+        x, ok, fx, gx, it, sn, yn = lineSearch(x, f, Df, d, fxRef, gx)
+        fxList = np.append(fxList[1:], fx)
         iter += [1, it]
         if not ok:
             break

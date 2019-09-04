@@ -48,7 +48,7 @@ def genericNonmonotone(lmData, updateCalculator, directionCalculator, f, Df, x):
     """Generic nonmonotone regularization method."""
     iter = np.array([0, 0])
     fx, gx, lam = f(x), Df(x), 1.0
-    fx_list = np.append(np.zeros(parameters.nonmon-1), fx)
+    fxList = np.append(np.zeros(parameters.nonmon-1), fx)
 
     while not stoppingTest(iter, lam, gx):
         d = directionCalculator(lmData, lam, gx)
@@ -60,8 +60,8 @@ def genericNonmonotone(lmData, updateCalculator, directionCalculator, f, Df, x):
             continue
 
         # Compute trial point and actual reduction
-        fx_ref = fx if iter[0]+1 < parameters.nonmon else max(fx_list)
-        xtry, ftry, ared = computeTrialPoint(x, f, fx_ref, d)
+        fxRef = fx if iter[0]+1 < parameters.nonmon else max(fxList)
+        xtry, ftry, ared = computeTrialPoint(x, f, fxRef, d)
 
         # Check whether iteration was successful
         if (ared <= 1e-4*pred):
@@ -69,7 +69,7 @@ def genericNonmonotone(lmData, updateCalculator, directionCalculator, f, Df, x):
             iter += [0, 1]
         else:
             x, fx, gx, yn = acceptTrialPoint(xtry, ftry, Df, gx)
-            fx_list = np.append(fx_list[1:], fx)
+            fxList = np.append(fxList[1:], fx)
             updateCalculator(lmData, d, yn)
             if (ared >= 0.9*pred):
                 lam = max(1e-4, 0.5*lam)
@@ -95,5 +95,5 @@ def computeTrialPoint(x, f, fx, d):
 
 def acceptTrialPoint(xtry, ftry, Df, gx):
     """Accept trial point and assign new values."""
-    gx_new = Df(xtry)
-    return xtry, ftry, gx_new, gx_new - gx
+    gxNew = Df(xtry)
+    return xtry, ftry, gxNew, gxNew - gx
