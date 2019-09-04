@@ -40,7 +40,7 @@ def inverseLPSB(data, lam, g):
 
     Q = np.block([
         [np.zeros((mUpd, mUpd)), np.triu(data.STS[:mUpd, :mUpd])],
-        [np.triu(data.STS[:mUpd, :mUpd]), Q22]
+        [np.triu(data.STS[:mUpd, :mUpd]).T, Q22]
     ])
 
     Q += 1/gammah * np.block([

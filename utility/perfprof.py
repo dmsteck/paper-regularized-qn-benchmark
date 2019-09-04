@@ -186,8 +186,8 @@ def perfprof(data, linespecs=None, linewidth=1.6, thmax=None,
                      label=legendnames[alt])
 
     # set labels and ticks
-    plt.xlabel(thlabel, fontsize=fontsize)
-    plt.ylabel(plabel, fontsize=fontsize)
+    #plt.xlabel(thlabel, fontsize=fontsize)
+    #plt.ylabel(plabel, fontsize=fontsize)
     plt.tick_params(labelsize=tickfontsize)
 
     # create legend

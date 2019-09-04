@@ -31,6 +31,18 @@ def problemsToRun():
         'SPARSINE', 'SPARSQUR', 'SPMSRTLS', 'SROSENBR', 'SSBRYBND', 'SSCOSINE', \
         'TESTQUAD', 'TOINTGSS', 'TQUARTIC', 'TRIDIA', 'WOODS', 'YATP1LS', 'YATP2LS'
 
+    # Fast problems
+    #problems = 'ARWHEAD', 'BDQRTIC', 'BOXPOWER', 'BROYDN3DLS', 'BROYDN7D', \
+    #    'BROYDNBDLS', 'BRYBND', 'COSINE', 'CRAGGLVY', 'DIXMAANA', 'DIXMAANB', \
+    #    'DIXMAANC','DIXMAAND','DIXMAANE','DIXMAANF','DIXMAANG','DIXMAANH', \
+    #    'DIXMAANI','DIXMAANJ','DIXMAANK','DIXMAANL','DIXMAANM','DIXMAANN', \
+    #    'DIXMAANO','DIXMAANP','DIXON3DQ','DQDRTIC','DQRTIC','EDENSCH', \
+    #    'EG2','ENGVAL1','FLETBV3M','FLETCBV2','FMINSRF2','FMINSURF', \
+    #    'FREUROTH','LIARWHD','MOREBV','NCB20B','NONDIA','NONDQUAR', \
+    #    'PENALTY1','POWELLSG','QUARTC','SCHMVETT','SINQUAD', \
+    #    'SPARSQUR','SROSENBR','TOINTGSS','TQUARTIC','WOODS','YATP1LS', \
+    #    'YATP2LS'
+
     # List of problems that can be excluded because all algorithms are known to fail
     exclude = 'BA-L16LS', 'BA-L21LS', 'BA-L49LS', 'BA-L52LS', 'BA-L73LS', \
         'CURLY30', 'FLETCBV3', 'FLETCHBV', 'INDEF', 'NONMSQRT', 'SBRYBND', \

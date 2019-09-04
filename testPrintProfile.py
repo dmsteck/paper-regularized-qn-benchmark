@@ -13,7 +13,11 @@ fx, normDfx, iter, nf = [resultsFile[var]
 nfValid = nf.astype(float)
 nfValid[normDfx > parameters.tolGrad] = np.inf
 
-# Monotone algorithms
-linespecs = ['r-', 'b-', 'c-', 'g-', 'y-']
+linespecs = ['r-', 'b:', 'c--', 'g-.', 'y-']
 legend = ['armijoLBFGS', 'wolfeLBFGS', 'regLBFGS', 'regLSR1', 'regLPSB']
+
+# Monotone algorithms
 perfprof.perfprof(nfValid[0].T, linespecs=linespecs, legendnames=legend, legendpos=4, thmax=5.)
+
+# Nonmonotone algorithms
+perfprof.perfprof(nfValid[1].T, linespecs=linespecs, legendnames=legend, legendpos=4, thmax=5.)

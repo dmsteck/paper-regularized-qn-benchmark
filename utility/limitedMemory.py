@@ -42,7 +42,7 @@ def twoLoopRecursion(S, Y, rho, mUpd, gamma, rhs):
     x = rhs.copy()
 
     # Two-loop recursion
-    for i in range(mUpd):
+    for i in reversed(range(mUpd)):
         alpha[i] = np.dot(S[:, i], rhs) / rho[i]
         x -= alpha[i] * Y[:, i]
     x /= gamma
