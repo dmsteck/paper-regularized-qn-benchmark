@@ -21,7 +21,7 @@ def updateLmData(lmData, sn, yn):
     """Update L-BFGS data using cautious updating scheme."""
     gamma = lmData.gamma
     sty = np.dot(sn, yn)
-    if (sty >= 1e-8 * np.dot(sn, sn)):
+    if (sty >= parameters.crvThreshold * np.dot(sn, sn)):
         # Compute new gamma
         gamma = np.dot(yn, yn) / sty
         # Perform update

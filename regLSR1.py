@@ -20,7 +20,7 @@ def updateLmData(data, sn, yn):
     """Update L-SR1 data."""
     gamma = data.gamma
     sty = np.dot(sn, yn)
-    if (sty >= 1e-8 * np.dot(sn, sn)):
+    if (sty >= parameters.crvThreshold * np.dot(sn, sn)):
         # Compute new gamma
         gamma = np.dot(yn, yn) / sty
     # Perform update

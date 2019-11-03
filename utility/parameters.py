@@ -12,6 +12,9 @@ tolGrad = 1e-4
 maxReg = 1e15
 minStep = 1e-15
 
+# Cautious update threshold
+crvThreshold = 1e-8
+
 # Limited memory bound
 memory = 5
 
