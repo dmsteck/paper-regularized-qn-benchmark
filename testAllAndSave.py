@@ -4,7 +4,6 @@
 import pycutest
 import numpy as np
 import multiprocessing
-import SharedArray
 import regLSR1
 import regLBFGS
 import regLPSB
@@ -51,14 +50,10 @@ def problemsToRun():
     return set(problems) - set(exclude)
 
 
-def prepareSharedArrays():
-    """Prepares output data arrays."""    
-    nModes, nAlgs, nProbs = len(modes), len(algorithms), len(problems)
-    fx = SharedArray.create('fx', (nModes, nAlgs, nProbs))
-    normDfx = SharedArray.create('normDfx', (nModes, nAlgs, nProbs))
-    iter = SharedArray.create('iter', (nModes, nAlgs, nProbs), dtype=int)
-    nf = SharedArray.create('nf', (nModes, nAlgs, nProbs), dtype=int)
-    return fx, normDfx, iter, nf
+def sharedArray(dtype, dims):
+    """Create a shared numpy array."""
+    mpArray = multiprocessing.Array(dtype, int(np.prod(dims)), lock=False)
+    return np.frombuffer(mpArray, dtype=dtype).reshape(dims)
 
 
 def solveProblem(pId, problem):
@@ -88,7 +83,11 @@ modes = 'solve', 'solveNonmonotone'
 problems = problemsToRun()
 
 # Initialize output data
-fx, normDfx, iter, nf = prepareSharedArrays()
+nModes, nAlgs, nProbs = len(modes), len(algorithms), len(problems)
+fx = sharedArray('d', (nModes, nAlgs, nProbs))
+normDfx = sharedArray('d', (nModes, nAlgs, nProbs))
+iter = sharedArray('I', (nModes, nAlgs, nProbs))
+nf = sharedArray('I', (nModes, nAlgs, nProbs))
 
 # Solve all problems
 pool = multiprocessing.Pool()
@@ -98,9 +97,3 @@ pool.starmap(solveProblem, enumerate(problems))
 
 # Save results to file
 np.savez('results', fx=fx, normDfx=normDfx, iter=iter, nf=nf)
-
-# Clear shared arrays
-SharedArray.delete(fx.base.name)
-SharedArray.delete(normDfx.base.name)
-SharedArray.delete(iter.base.name)
-SharedArray.delete(nf.base.name)
