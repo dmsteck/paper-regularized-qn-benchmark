@@ -28,11 +28,11 @@ def updateLmData(data, sn, yn):
     data.update(sn, yn, gamma)
 
 
-def inverseLPSB(data, lam, g):
+def inverseLPSB(data, mu, g):
     """Compute regularized L-PSB step."""
     mUpd = data.mUpd
     gamma = data.gamma
-    gammah = data.gamma+lam
+    gammah = data.gamma + mu
 
     Q22 = np.tril(data.STY[:mUpd, :mUpd], -1) + np.tril(data.STY[:mUpd, :mUpd], -1).T + \
         np.diag(np.diag(data.STY[:mUpd, :mUpd])) + \
@@ -50,6 +50,7 @@ def inverseLPSB(data, lam, g):
 
     ATg = np.block([data.S[:, :mUpd].T @ g, data.Y[:, :mUpd].T @ g])
     p = np.linalg.solve(Q, ATg)
+    #p = scipy.linalg.solve(Q, ATg, assume_a='sym')
     Ap = data.S[:, :mUpd] @ p[:mUpd] + data.Y[:, :mUpd] @ p[mUpd:]
     d = 1/gammah**2 * Ap - 1/gammah * g
     return d

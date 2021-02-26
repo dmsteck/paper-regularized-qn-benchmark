@@ -27,11 +27,11 @@ def updateLmData(data, sn, yn):
     data.update(sn, yn, gamma)
 
 
-def inverseLSR1(data, lam, g):
+def inverseLSR1(data, mu, g):
     """Compute regularized L-SR1 step."""
     mUpd = data.mUpd
     gamma = data.gamma
-    gammah = data.gamma+lam
+    gammah = data.gamma + mu
 
     A = data.Y[:, :mUpd] - gamma * data.S[:, :mUpd]
     Q = np.diag(np.diag(data.STY[:mUpd, :mUpd])) - gamma * data.STS[:mUpd, :mUpd] + \
@@ -42,6 +42,7 @@ def inverseLSR1(data, lam, g):
     [L, U, piv] = adaptiveLU(Q)
     ATg = A[:, piv].T @ g
     p = np.linalg.solve(U, np.linalg.solve(L, ATg))
+    #p = scipy.linalg.solve_triangular(U, scipy.linalg.solve_triangular(L, ATg, lower=True))
     Ap = A[:, piv] @ p
     d = 1 / gammah**2 * Ap - 1 / gammah * g
     return d
