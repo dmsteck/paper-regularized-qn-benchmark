@@ -7,7 +7,7 @@ from . import parameters
 
 def genericMonotone(lmData, updateCalculator, directionCalculator, lineSearch, f, Df, x):
     """Generic monotone line-search algorithm."""
-    iter = np.array([0, 0])
+    iter = np.array([0, 1])
     fx, gx = f(x), Df(x)
 
     while not stoppingTest(iter, gx):
@@ -23,7 +23,7 @@ def genericMonotone(lmData, updateCalculator, directionCalculator, lineSearch, f
 
 def genericNonmonotone(lmData, updateCalculator, directionCalculator, lineSearch, f, Df, x):
     """Generic nonmonotone line-search algorithm."""
-    iter = np.array([0, 0])
+    iter = np.array([0, 1])
     fx, gx = f(x), Df(x)
     fxList = np.append(np.zeros(parameters.nonmon-1), fx)
 
