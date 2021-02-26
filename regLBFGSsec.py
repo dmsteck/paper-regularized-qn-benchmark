@@ -17,7 +17,6 @@ def solveNonmonotone(f, Df, x):
 # .............
 
 def updateLmData(data, sn, yn):
-    gamma = data.gamma
     sty = np.dot(sn, yn)
     if (sty >= parameters.crvThreshold * np.dot(sn, sn)):
         # Compute new gamma
@@ -27,11 +26,11 @@ def updateLmData(data, sn, yn):
 
 # .............
 
-# data is LM data, lam regularization
-def calculateStep(data, lam, g):
+# data is LM data, mu regularization
+def calculateStep(data, mu, g):
     return limitedMemory.twoLoopRecursion(data.S, \
-        data.Y + lam * data.S,
-        data.sty + lam * data.sts,
+        data.Y + mu * data.S,
+        data.sty + mu * data.sts,
         data.mUpd,
-        data.gamma + lam,
+        data.gamma + mu,
         -g)
