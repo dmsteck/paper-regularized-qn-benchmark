@@ -2,8 +2,7 @@
 Monotone and nonmonotone L-BFGS algorithms with Wolfe line search.
 """
 import numpy as np
-import scipy.optimize.linesearch
-from utility import linesearch, parameters, limitedMemory
+from utility import linesearch, morethuente, parameters, limitedMemory
 
 
 def solve(f, Df, x):
@@ -33,11 +32,14 @@ def inverseBFGS(data, g):
 
 def wolfe(x, f, Df, d, fx, gx):
     """Perform Wolfe line-search by calling DCSRCH from MINPACK."""
-    t, it, _, fn, _, gn = scipy.optimize.linesearch.line_search_wolfe1(
-        f, Df, x, d, gx, fx, c1=1e-4, c2=0.5, amin=parameters.minStep)
-    if t is None:
+    fun = lambda x: (f(x), Df(x))
+
+    xn,fn,gn,t,exls,it = \
+        morethuente.cvsrch(fun,len(x),x,fx,gx,d,1,1e-4,0.9,1e-16,1e-20,1e20,20)
+    
+    if exls != 1:
         # Unsucessful
         return x, False, fx, gx, it, np.zeros_like(d), np.zeros_like(gx)
     else:
         # Successful
-        return x + t * d, True, fn, gn, it, t * d, gn - gx
+        return xn, True, fn, gn, it, t * d, gn - gx
