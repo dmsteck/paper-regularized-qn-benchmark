@@ -6,12 +6,12 @@ from utility import regularization, parameters, limitedMemory
 
 
 def solve(f, Df, x):
-    lmData = limitedMemory.LmData(x.shape[0], parameters.nonmon)
+    lmData = limitedMemory.LmData(x.shape[0], parameters.memory)
     return regularization.genericMonotone(lmData, updateLmData, calculateStep, f, Df, x)
 
 
 def solveNonmonotone(f, Df, x):
-    lmData = limitedMemory.LmData(x.shape[0], parameters.nonmon)
+    lmData = limitedMemory.LmData(x.shape[0], parameters.memory)
     return regularization.genericNonmonotone(lmData, updateLmData, calculateStep, f, Df, x)
 
 # .............
