@@ -1,0 +1,4 @@
+# Adding this as an empty folder to the repo helps avoid a potential
+# race condition when multiple pycutest instances try to create it
+*
+!.gitignore
